@@ -33,9 +33,9 @@ Option 3: EF Core with SQL Server:
 - Requires initial migration
 
 ## Endpoints
--GET /parking: Response `{ "AvailableSpaces": 55, "OccupiedSpaces": 5 }`.
--POST /parking: Parks a vehicle in the first available space. Body: `{ "VehicleRegistration": "ABC1234", "VehicleType": "Small" }`. Response: `{ "VehicleRegistration": "ABC1234", "SpotNumber": 1, "TimeIn": "2025-10-01T10:30:00Z" }`.
--POST /parking/exit: Frees a vehicle's space and calculates charges. Body: `{ "VehicleRegistration": "ABC1234" }`. Response: `{ "VehicleRegistration": "ABC1234", "VehicleCharge": 9.00, "TimeIn": "2025-10-01T10:30:00Z", "TimeOut": "2025-10-01T11:00:00Z" }`.
+- GET /parking: Response `{ "AvailableSpaces": 55, "OccupiedSpaces": 5 }`.
+- POST /parking: Parks a vehicle in the first available space. Body: `{ "VehicleRegistration": "ABC1234", "VehicleType": "Small" }`. Response: `{ "VehicleRegistration": "ABC1234", "SpotNumber": 1, "TimeIn": "2025-10-01T10:30:00Z" }`.
+- POST /parking/exit: Frees a vehicle's space and calculates charges. Body: `{ "VehicleRegistration": "ABC1234" }`. Response: `{ "VehicleRegistration": "ABC1234", "VehicleCharge": 9.00, "TimeIn": "2025-10-01T10:30:00Z", "TimeOut": "2025-10-01T11:00:00Z" }`.
 
 ## Key Features
 - Clean Architecture with proper separation of concerns.
