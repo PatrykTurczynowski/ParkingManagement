@@ -1,4 +1,5 @@
 ﻿using Microsoft.AspNetCore.Mvc;
+using ParkingManagement.Application.Contracts;
 using ParkingManagement.Application.DTOs;
 using ParkingManagement.Domain.Contracts;
 
@@ -6,9 +7,13 @@ namespace ParkingManagement.Api.Controllers;
 
 [ApiController]
 [Route("parking")]
-public class ParkingController(IParkingService parkingService) : ControllerBase
+public class ParkingController(
+    IParkingService parkingService,
+    IParkingValidationService parkingValidationService
+    ) : ControllerBase
 {
     private readonly IParkingService _parkingService = parkingService;
+    private readonly IParkingValidationService _parkingValidationService = parkingValidationService;
 
     /// <summary>
     /// Gets the current parking status, including the number of available and occupied spaces.
@@ -35,6 +40,12 @@ public class ParkingController(IParkingService parkingService) : ControllerBase
     [ProducesResponseType(StatusCodes.Status404NotFound)]
     public async Task<IActionResult> Post([FromBody] ParkVehicleRequest request)
     {
+        var validation = _parkingValidationService.ValidateVehicleRegistration(request.VehicleRegistration);
+        if (!validation.IsValid)
+        {
+            return BadRequest(new { validation.Message });
+        }
+
         var result = await _parkingService.ParkVehicleAsync(request);
         if (!result.IsSuccess)
         {
@@ -53,6 +64,12 @@ public class ParkingController(IParkingService parkingService) : ControllerBase
     [ProducesResponseType(StatusCodes.Status404NotFound)]
     public async Task<IActionResult> Post([FromBody] ExitVehicleRequest request)
     {
+        var validation = _parkingValidationService.ValidateVehicleRegistration(request.VehicleRegistration);
+        if (!validation.IsValid)
+        {
+            return BadRequest(new { validation.Message });
+        }
+
         var result = await _parkingService.ExitVehicleAsync(request);
         if (!result.IsSuccess)
         {
